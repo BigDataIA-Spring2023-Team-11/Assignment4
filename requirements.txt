@@ -132,6 +132,7 @@ pyasn1==0.4.8
 pyasn1-modules==0.2.8
 pycparser==2.21
 pydub==0.25.1
+pyee==9.0.4
 Pygments==2.14.0
 PyJWT==2.6.0
 pyOpenSSL==23.1.0
@@ -141,6 +142,7 @@ pyrsistent==0.19.3
 python-daemon==3.0.1
 python-dateutil==2.8.2
 python-dotenv==1.0.0
+python-ffmpeg==2.0.4
 python-nvd3==0.15.0
 python-slugify==8.0.1
 pytz==2022.7.1

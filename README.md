@@ -4,7 +4,7 @@
 <ul>
 <li>💻 <a href="#">Streamlit</a> </li>
 <li>🔎 <a href="#">FastAPI</a> </li>
-<li>⏰ <a href="https://fb4118671fd67727dp-tp.appspot.com/home">Airflow</a> </li>
+<li>⏰ <a href="http://23.21.117.161:8080/home">Airflow</a> </li>
 <li>📖 <a href="https://codelabs-preview.appspot.com/?file_id=1Kvr1U-_Q8uHod0Vy34imUPMNgoC8hk50rDscrkmy26A#0">Codelab </a> </li>
 </ul>
 

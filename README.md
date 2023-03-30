@@ -1,39 +1,66 @@
-# Assignment4 - Meeting Intelligence Application
+## Airflow Setup and Instructions
 
-### Links
-<ul>
-<li>💻 <a href="#">Streamlit</a> </li>
-<li>🔎 <a href="#">FastAPI</a> </li>
-<li>⏰ <a href="#" target="_blank">Airflow</a> </li>
-<li>📖 <a href="https://codelabs-preview.appspot.com/?file_id=1Kvr1U-_Q8uHod0Vy34imUPMNgoC8hk50rDscrkmy26A#0" target="_blank">Codelab </a> </li>
-</ul>
+<a href="http://23.21.117.161:8080/home" target="_blank">Airflow Public Instance</a>
 
 
+### Branch Structure
 
-### Table of Content
+* [airflow/dags](./airflow/dags)
+  * [adhoc.py](./airflow/dags/adhoc.py)
+  * [adhoc_pipeline.py](./airflow/dags/adhoc_pipeline.py)
+  * [batch.py](./airflow/dags/batch.py)
+  * [batch_pipeline.py](./airflow/dags/batch_pipeline.py)
+* [Dockerfile](./Dockerfile)
+* [docker-compose.yaml](./docker-compose.yaml)
+* [requirements.txt](./requirements.txt)
+* [README.md](./README.md)
 
-1️⃣ [Objective](#objective) <br>
-2️⃣ [Architecture Diagram](#architecture-diagram) <br>
-3️⃣ [S3 Bucket Design](#s3-bucket-design) <br>
-4️⃣ [Steps to run the application](#steps-to-run-the-application) <br>
-5️⃣ [Attestation](#attestation) <br>
+### Pre-requisites
 
-___
+1. Code Editor (PyCharm, VS Code, etc)
+2. Docker
+3. Python v3.2 or later
+
+### Steps on run Airflow locally
+
+1. Clone the airflow branch using the following code on terminal - 
+````
+git clone --branch airflow https://github.com/BigDataIA-Spring2023-Team-11/Assignment4.git
+````
+2. Move to the project directory and run the following command in terminal to create a .env file
+````
+nano .env
+````
+3. Add the following environment variables with values:
+```
+AIRFLOW_UID=501
+AIRFLOW_PROJ_DIR=./airflow
+ACCESS_KEY=
+SECRET_KEY=
+SOURCE_BUCKET=
+API_KEY=
+KMP_DUPLICATE_LIB_OK=TRUE
+```
+4. Save file while exiting the editor -> *control* + *x* 
+5. Install requirements using command - 
+```commandline
+pip install -r requirements.txt
+```
+6. Ensure docker is running in background. Run following commands - 
+```commandline
+docker-compose build
+docker compose up airflow-init
+docker compose up
+```
+7. Once the localhost URL is shared, go to : https://localhost:8080/
+8. Login using following credentials -
+```commandline
+Username: a4@team11
+Password: team11
+```
+9. Review DAGS: Adhoc_DAG and Batch_DAG
+10. Go to individual dags to trigger run, view logs, graphs etc.
 
 
-## Objective
-## Architecture Diagram
-## S3 Bucket Design
-## Steps to run the application
-## Attestation
-WE ATTEST THAT WE HAVEN’T USED ANY OTHER STUDENTS’ WORK IN OUR ASSIGNMENT
-AND ABIDE BY THE POLICIES LISTED IN THE STUDENT HANDBOOK
-Contribution:
-<ul>
-<li>Aakash: 25%</li>
-<li>Bhakti: 25%</li>
-<li>Bhargavi: 25%</li>
-<li>Charu: 25%</li>
-</ul>
 
 

@@ -41,7 +41,7 @@ adhoc_endpoint = config['endpoints']['adhoc']
 """
 writing logs to cloudwatch
 """
-def write_logs(message: str,log_stream):
+def write_logs_to_cloudwatch(message: str, log_stream):
     s3_logs.put_log_events(
         logGroupName = "model_as_a_service",
         logStreamName = log_stream,
@@ -57,24 +57,22 @@ def write_logs(message: str,log_stream):
 get all files from a s3 directory
 """
 def list_files_in_folder(folder_name: str):
-    file_list = []
+    files = []
     user_s3_bucket_files = s3_client.list_objects(Bucket = s3_bucket, Prefix =f"{folder_name}/").get('Contents')
-    
-    for objects in user_s3_bucket_files:
-        file_path = objects['Key'].split('/')
+    for obj in user_s3_bucket_files:
+        file_path = obj['Key'].split('/')
         if file_path[-1] != '':
-            file_list.append(file_path[-1])
-    if (len(file_list)!=0):
-        return file_list
+            files.append(file_path[-1])
+    if (len(files)!=0):
+        return files
 
 """
 Uploading files to s3 bucket
 """
-def send_files_to_s3(media_file: str, folder_name: str):
-    media_file_name = media_file.name
-    s3_object_file = f'{folder_name}/{media_file_name}'
-
-    s3_resource.Bucket(s3_bucket).put_object(Key=s3_object_file, Body=media_file.read())
+def send_files_to_s3(audio_file: str, folder_name: str):
+    audio_name = audio_file.name
+    s3_object_file = f'{folder_name}/{audio_name}'
+    s3_resource.Bucket(s3_bucket).put_object(Key=s3_object_file, Body=audio_file.read())
 
 
 
@@ -107,7 +105,6 @@ def trigger_adhoc_dag():
         'Authorization': 'Basic YTRAdGVhbTExOnRlYW0xMQ==',
         'Content-Type': 'application/json'
     }
-
     response = requests.request("POST", adhoc_endpoint, headers=headers, data=payload)
     return response
 
@@ -134,16 +131,11 @@ def get_all_default_answers(filename):
     response = s3_client.get_object(Bucket=bucket_name, Key=f'{directory_name}/{filename}')
     file_content = response['Body'].read().decode('utf-8')
     json_content = json.loads(file_content)
-    answers = ""
-    # answers += f"{json_content["default_questions"]["question1"]["answer"]}"
     return json_content["default_questions"]["question1"]["answer"] + json_content["default_questions"]["question2"]["answer"] + json_content["default_questions"]["question3"]["answer"]
-    # return answers
 
 def get_transcribed_file_content(file_name):
 
     file_path = f'Processed-Text/{file_name.split(".")[0]}.txt'
-
-    # read text from file
     response = s3_client.get_object(Bucket=s3_bucket, Key=file_path)
     text = response['Body'].read().decode('utf-8')
     return text

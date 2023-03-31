@@ -1,12 +1,4 @@
-import os
-import time
-import json
-import boto3
-from PIL import Image
 import streamlit as st
-from dotenv import load_dotenv
-import requests
-import datetime
 from utils import *
 
 # Generate timestamp
@@ -20,7 +12,6 @@ s3_resource = boto3.resource('s3',
                              aws_access_key_id = os.environ.get('AWS_ACCESS_KEY'),
                              aws_secret_access_key = os.environ.get('AWS_SECRET_KEY'))
 
-# Lets Define user bucket to save file
 s3_bucket = os.environ.get('SOURCE_BUCKET')
 user_bucket_access = s3_resource.Bucket(s3_bucket)
 
@@ -31,35 +22,27 @@ audio_file_dir = config['dir']['audio_file']
 default_questions_dir = config['dir']['default_questions']
 adhoc_endpoint = config['endpoints']['adhoc']
 
-
-
-
+accepted_audio_types = ["audio/x-m4a", "audio/mpeg", "audio/wav", "audio/x-wav", "audio/mpeg3", "audio/x-mpeg-3"]
 
 def upload_file_to_s3_bucket():
     uploaded_file = st.file_uploader('Please attach an audio file', type=["mp3","m4a"])
     
     if uploaded_file is not None:
-        write_logs(f"{uploaded_file.name} File attached to upload","file_upload_logs")
+        write_logs_to_cloudwatch(f"{uploaded_file.name} File attached to upload", "file_upload_logs")
         size_mb = uploaded_file.size / (1024 * 1024)
         st.info(f'Size: {size_mb:.2f} MB')
-
-        audio_file_types = ["audio/x-m4a","audio/mpeg", "audio/wav", "audio/x-wav", "audio/mpeg3", "audio/x-mpeg-3"]
-        
-        if uploaded_file.type not in audio_file_types:
+        if uploaded_file.type not in accepted_audio_types:
             st.error('Uploaded file type not supported')
         else:
-            upload_button = st.button('Upload and transcribe!')
-            if upload_button:
+            if st.button('Upload and transcribe!'):
                 audiofile_folder = f'{audio_file_dir}/'
                 file_key = audiofile_folder + uploaded_file.name
                 keys_s3_files = []
                 for list_s3_files in user_bucket_access.objects.all():
                     keys_s3_files.append(list_s3_files.key)
                 if file_key in keys_s3_files:
-                    write_logs(f"{file_key} File already available in the user bucket folder.","file_upload_logs")
+                    write_logs_to_cloudwatch(f"{file_key} File already available in the user bucket folder.", "file_upload_logs")
                     st.error('File already exists, please select another file')
-
-                
                 else:
                     with st.spinner('Uploading'):
                         try:
@@ -72,10 +55,10 @@ def upload_file_to_s3_bucket():
                                     st.write("Audio transcripted successfully")
                                 else:
                                     st.write("Failed to transcribe the audio: {}".format(response.text))
-                                write_logs(f"Successfully uploaded {uploaded_file.name} to Audio_files.","file_upload_logs")
+                                write_logs_to_cloudwatch(f"Successfully uploaded {uploaded_file.name} to Audio_files.", "file_upload_logs")
                         except Exception as e:
                             st.error(f'Error while Uploading the File: {str(e)}')
-                            write_logs(f"Error uploading file: {str(e)}","file_upload_logs")
+                            write_logs_to_cloudwatch(f"Error uploading file: {str(e)}", "file_upload_logs")
 
 
 def question_answering():
@@ -93,7 +76,7 @@ def question_answering():
         combined_answer = get_all_default_answers(selected_file)
         with st.expander("Expand for answer"):
             st.write(combined_answer)
-            write_logs(f"Answer retrieved for all questions", "questions_logs")
+            write_logs_to_cloudwatch(f"Answer retrieved for all questions", "questions_logs")
 
     st.markdown("")
     st.markdown("<span style='color: #2A76BE;'>--------------------------------------------------------------------------------------------------------------------------------------------</span>",unsafe_allow_html=True)
@@ -108,14 +91,14 @@ def question_answering():
         answer = retrive_answers_from_default_answers_json(selected_file,selected_question)
         with st.expander(f"Expland to know answer for {selected_question}"):
             st.write(answer)
-            write_logs(f"Answer retrieved for {selected_question}", "questions_logs")
+            write_logs_to_cloudwatch(f"Answer retrieved for {selected_question}", "questions_logs")
 
     st.markdown("<span style='color: #2A76BE;'>--------------------------------------------------------------------------------------------------------------------------------------------</span>",unsafe_allow_html=True)
     question_input = st.text_input('Enter your question')
     if st.button("Get answer"):
         selected_file_content = get_transcribed_file_content(selected_file)
         answer_to_custom_ques = answer_custom_question(question_input,selected_file_content)
-        write_logs(f"Answer generated for {question_input}","questions_logs")
+        write_logs_to_cloudwatch(f"Answer generated for {question_input}", "questions_logs")
         with st.expander("Expand for answer"):
             st.write(answer_to_custom_ques)
 

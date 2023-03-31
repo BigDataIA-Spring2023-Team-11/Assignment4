@@ -36,14 +36,14 @@ adhoc_endpoint = config['endpoints']['adhoc']
 
 
 def upload_file_to_s3_bucket():
-    uploaded_file = st.file_uploader('Please attach an audio file', type=["mp3"])
+    uploaded_file = st.file_uploader('Please attach an audio file', type=["mp3","m4a"])
     
     if uploaded_file is not None:
         write_logs(f"{uploaded_file.name} File attached to upload","file_upload_logs")
         size_mb = uploaded_file.size / (1024 * 1024)
         st.info(f'Size: {size_mb:.2f} MB')
 
-        audio_file_types = ["audio/mpeg", "audio/wav", "audio/x-wav", "audio/mpeg3", "audio/x-mpeg-3"]
+        audio_file_types = ["audio/x-m4a","audio/mpeg", "audio/wav", "audio/x-wav", "audio/mpeg3", "audio/x-mpeg-3"]
         
         if uploaded_file.type not in audio_file_types:
             st.error('Uploaded file type not supported')
@@ -131,8 +131,6 @@ if __name__ == '__main__':
     c1, c2, c3 = st.columns([0.1, 2, 0.1])
     with c2:
         st.title('Meeting Intelligence Application')
-        # selected_operation = st.sidebar.selectbox("Select a Operation",
-        #                                           ["Homepage", "Upload & Transcribe Media File", "Ask Questions?"])
 
         selected_operation = st.sidebar.radio("Select a Operation",  ["Homepage", "Upload & Transcribe Media File", "Ask Questions?"])
 

@@ -3,7 +3,7 @@ import time
 import json
 import boto3
 from PIL import Image
-import main as st
+import streamlit as st
 from dotenv import load_dotenv
 import requests
 import datetime
@@ -77,60 +77,6 @@ def upload_file_to_s3_bucket():
                             st.error(f'Error while Uploading the File: {str(e)}')
                             write_logs(f"Error uploading file: {str(e)}","file_upload_logs")
 
-# def transcribe_file():
-#     selected_file = st.selectbox('Please Select the media file to transcribe:', [" "] + list_files_in_folder('Adhoc-Folder'))
-#     transcribe_file = st.button('Transcribe the file')
-#     if transcribe_file:
-#         if selected_file != " ":
-#             with st.spinner('Transcribing...'):
-#                 try:
-#                     s3_object_key = f'Adhoc-Folder/{selected_file}'
-#                     transcript = transcribe_media_file(s3_object_key)
-#                     st.write(transcript)
-#                     st.success('File transcribed successfully !!!')
-                    # write_logs(f"File transcribed successfully {transcript}")
-#                     st.write('')
-#
-#                     key = transcript_file_s3(s3_object_key, transcript)
-#                     st.success(f"Successfully uploaded transcript to {key}")
-#                     # write_logs(f"Successfully uploaded transcript to {key}")
-#
-#                 except Exception as  e:
-#                     st.error('Error transcribing the file: ' + str(e))
-#                     # write_logs(f"Error transcribing file: {str(e)}")
-#                     st.write('Please try again later !!!')
-#         else:
-#             st.warning('Please select the file first !!!')
-#     else:
-#         st.write('Please upload the file first !!!')
-
-# def get_text_analysis():
-#     selected_file = st.selectbox('Please Select the transcript file from the processed list:', [" "] + list_files_in_folder('Processed-Text-Folder'))
-#     default_button = st.button('Generate Deafult Question:')
-#     question_input = st.text_input("Please Enter Your Questions:")
-#     ask_button = st.button('Ask Question:')
-#
-#     if selected_file != " ":
-#         if default_button:
-#             st.write('')
-#             default_answer = gpt_default_questions(selected_file)
-#             # write_logs(f"Default Questions: {default_answer}")
-#             st.write(default_answer)
-#         else:
-#             st.warning('Please generate default questions')
-#
-#         if ask_button:
-#             # write_logs(f"Asking Question: {question_input}")
-#             answer = generate_answer(question_input, selected_file)
-#             # write_logs(f"Answers: {answer}")
-#             st.write(answer)
-#         else:
-#             st.warning("Please ask the question from the transcript file selected")
-#     else:
-#         st.warning("Please select the file first !!!")
-
-# Function to display Streamlit Homepage App
-# def homepage_application():
 
 def question_answering():
     files_list = list_files_in_folder(default_questions_dir)

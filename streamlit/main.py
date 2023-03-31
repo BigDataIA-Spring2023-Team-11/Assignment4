@@ -3,7 +3,7 @@ import time
 import json
 import boto3
 from PIL import Image
-import streamlit as st
+import main as st
 from dotenv import load_dotenv
 import requests
 import datetime

@@ -2,8 +2,7 @@
 
 ### Links
 <ul>
-<li>💻 <a href="#">Streamlit</a> </li>
-<li>🔎 <a href="#">FastAPI</a> </li>
+<li>💻 <a href="https://meetingintelligence-vbs-bigdata.streamlit.app/">Streamlit</a> </li>
 <li>⏰ <a href="http://23.21.117.161:8080/home">Airflow</a> </li>
 <li>📖 <a href="https://codelabs-preview.appspot.com/?file_id=1Kvr1U-_Q8uHod0Vy34imUPMNgoC8hk50rDscrkmy26A#0">Codelab </a> </li>
 </ul>
@@ -24,7 +23,12 @@ ___
 ## Objective
 The objective is to develop a Meeting Intelligence Application and evaluate its performance by recording four 10-minute-long meetings. The application will utilize Whisper and GPT 3.5 APIs, integrated with Streamlit and Airflow. The recorded meetings will be converted to transcripts using the Whisper API. Ask some generic questions to these transcripts using ChatGPT and provide the user an option to ask custom questions.
 ## Architecture Diagram
+![image](/Users/akshaysawant/Downloads/Assignment4_bhakti/architecture_diagram/final_cloud_architecture_diagram.png)
+
 ## S3 Bucket Design
+![image](/Users/akshaysawant/Downloads/Assignment4_bhakti/s3_images/pasted_image.png)
+
+
 ## Steps to run the application
 1. Clone the airflow branch using the following code on terminal - 
 ````
@@ -63,6 +67,7 @@ Password: team11
 ```
 9. Review DAGS: Adhoc_DAG and Batch_DAG
 10. Go to individual dags to trigger run, view logs, graphs etc.
+
 ## Attestation
 WE ATTEST THAT WE HAVEN’T USED ANY OTHER STUDENTS’ WORK IN OUR ASSIGNMENT
 AND ABIDE BY THE POLICIES LISTED IN THE STUDENT HANDBOOK

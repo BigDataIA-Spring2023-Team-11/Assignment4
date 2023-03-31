@@ -22,9 +22,47 @@ ___
 
 
 ## Objective
+The objective is to develop a Meeting Intelligence Application and evaluate its performance by recording four 10-minute-long meetings. The application will utilize Whisper and GPT 3.5 APIs, integrated with Streamlit and Airflow. The recorded meetings will be converted to transcripts using the Whisper API. Ask some generic questions to these transcripts using ChatGPT and provide the user an option to ask custom questions.
 ## Architecture Diagram
 ## S3 Bucket Design
 ## Steps to run the application
+1. Clone the airflow branch using the following code on terminal - 
+````
+git clone --branch airflow https://github.com/BigDataIA-Spring2023-Team-11/Assignment4.git
+````
+2. Move to the project directory and run the following command in terminal to create a .env file
+````
+nano .env
+````
+3. Add the following environment variables with values:
+```
+AIRFLOW_UID=501
+AIRFLOW_PROJ_DIR=./airflow
+ACCESS_KEY=
+SECRET_KEY=
+SOURCE_BUCKET=
+API_KEY=
+KMP_DUPLICATE_LIB_OK=TRUE
+```
+4. Save file while exiting the editor -> *control* + *x* 
+5. Install requirements using command - 
+```commandline
+pip install -r requirements.txt
+```
+6. Ensure docker is running in background. Run following commands - 
+```commandline
+docker-compose build
+docker compose up airflow-init
+docker compose up
+```
+7. Once the localhost URL is shared, go to : https://localhost:8080/
+8. Login using following credentials -
+```commandline
+Username: a4@team11
+Password: team11
+```
+9. Review DAGS: Adhoc_DAG and Batch_DAG
+10. Go to individual dags to trigger run, view logs, graphs etc.
 ## Attestation
 WE ATTEST THAT WE HAVEN’T USED ANY OTHER STUDENTS’ WORK IN OUR ASSIGNMENT
 AND ABIDE BY THE POLICIES LISTED IN THE STUDENT HANDBOOK

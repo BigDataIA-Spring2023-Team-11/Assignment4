@@ -23,7 +23,7 @@ ___
 ## Objective
 The objective is to develop a Meeting Intelligence Application and evaluate its performance by recording four 10-minute-long meetings. The application will utilize Whisper and GPT 3.5 APIs, integrated with Streamlit and Airflow. The recorded meetings will be converted to transcripts using the Whisper API. Ask some generic questions to these transcripts using ChatGPT and provide the user an option to ask custom questions.
 ## Architecture Diagram
-![image](/Users/akshaysawant/Downloads/Assignment4_bhakti/architecture_diagram/final_cloud_architecture_diagram.png)
+![image](https://github.com/BigDataIA-Spring2023-Team-11/Assignment4/blob/main/architecture_diagram/final_cloud_architecture_diagram.png)
 
 ## S3 Bucket Design
 ![image](https://github.com/BigDataIA-Spring2023-Team-11/Assignment4/blob/main/s3_images/pasted_image.png)

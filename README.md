@@ -26,7 +26,7 @@ The objective is to develop a Meeting Intelligence Application and evaluate its 
 ![image](/Users/akshaysawant/Downloads/Assignment4_bhakti/architecture_diagram/final_cloud_architecture_diagram.png)
 
 ## S3 Bucket Design
-![image](/Users/akshaysawant/Downloads/Assignment4_bhakti/s3_images/pasted_image.png)
+![image](https://github.com/BigDataIA-Spring2023-Team-11/Assignment4/blob/main/s3_images/pasted_image.png)
 
 
 ## Steps to run the application

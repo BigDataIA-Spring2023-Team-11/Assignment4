@@ -1,12 +1,20 @@
 import streamlit as st
 from utils import *
+from streamlit_lottie import st_lottie
 
 # Generate timestamp
 timestamp = datetime.datetime.utcnow().isoformat()
 
 
 load_dotenv()
-
+def load_lottiefile(filepath:str):
+    with open(filepath,"r") as f:
+        return json.load(f)
+def load_lottieurl(url:str):
+    r = requests.get(url)
+    if r.status_code !=200:
+        return None
+    return r.json()
 s3_resource = boto3.resource('s3',
                              region_name='us-east-1',
                              aws_access_key_id = os.environ.get('AWS_ACCESS_KEY'),
@@ -25,8 +33,10 @@ adhoc_endpoint = config['endpoints']['adhoc']
 accepted_audio_types = ["audio/x-m4a", "audio/mpeg", "audio/wav", "audio/x-wav", "audio/mpeg3", "audio/x-mpeg-3"]
 
 def upload_file_to_s3_bucket():
+    # column1, column2 = st.columns([2,1])
+    # with column1:
     uploaded_file = st.file_uploader('Please attach an audio file', type=["mp3","m4a"])
-    
+
     if uploaded_file is not None:
         write_logs_to_cloudwatch(f"{uploaded_file.name} File attached to upload", "file_upload_logs")
         size_mb = uploaded_file.size / (1024 * 1024)
@@ -37,10 +47,10 @@ def upload_file_to_s3_bucket():
             if st.button('Upload and transcribe!'):
                 audiofile_folder = f'{audio_file_dir}/'
                 file_key = audiofile_folder + uploaded_file.name
-                keys_s3_files = []
+                s3_files = []
                 for list_s3_files in user_bucket_access.objects.all():
-                    keys_s3_files.append(list_s3_files.key)
-                if file_key in keys_s3_files:
+                    s3_files.append(list_s3_files.key)
+                if file_key in s3_files:
                     write_logs_to_cloudwatch(f"{file_key} File already available in the user bucket folder.", "file_upload_logs")
                     st.error('File already exists, please select another file')
                 else:
@@ -118,18 +128,47 @@ if __name__ == '__main__':
         selected_operation = st.sidebar.radio("Select a Operation",  ["Homepage", "Upload & Transcribe Media File", "Ask Questions?"])
 
     if selected_operation == "Upload & Transcribe Media File":
-        st.markdown('')
-        st.markdown('')
-        st.markdown('')
-        st.subheader('Upload & Transcribe the Media File')
-        st.markdown('')
-        upload_file_to_s3_bucket()
+        c1,c2 = st.columns([2,1])
+        with c1:
+            st.markdown('')
+            st.markdown('')
+            st.markdown('')
+            st.subheader('Upload & Transcribe the Media File')
+            st.markdown('')
+            st.markdown('')
+            st.markdown('')
+            upload_file_to_s3_bucket()
+        with c2:
+            lottie_audio = load_lottieurl("https://assets8.lottiefiles.com/private_files/lf30_qfbae4sb.json")
+            st_lottie(
+                lottie_audio,
+                speed=1,
+                reverse=False,
+                loop=True,
+                height="450px",
+                width=None,
+                key=None,
+            )
+
 
     elif selected_operation == "Homepage":
         st.markdown('')
         st.markdown('')
         st.markdown('')
+        # col1,col2 = st.columns([1,1])
+        # with col1:
         st.markdown('This project is designed to provide an efficient way to comprehend meeting content. By enabling users to upload an audio file of their choice for transcription, they can easily review and analyze meeting transcripts. Additionally, the project allows users to ask questions related to the meeting content, making it a comprehensive tool for extracting useful insights.')
+        # with col2:
+        lottie_img = load_lottieurl("https://assets2.lottiefiles.com/packages/lf20_7mpsnbrj.json")
+        st_lottie(
+            lottie_img,
+            speed=1,
+            reverse=False,
+            loop=True,
+            height="450px",
+            width=None,
+            key=None,
+        )
     else:
         st.markdown('')
         st.markdown('')

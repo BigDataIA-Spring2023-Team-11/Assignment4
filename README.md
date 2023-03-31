@@ -30,9 +30,10 @@ The objective is to develop a Meeting Intelligence Application and evaluate its 
 
 
 ## Steps to run the application
-1. Clone the airflow branch using the following code on terminal - 
+### AIRFLOW
+1. Clone the repo using the following code on terminal - 
 ````
-git clone --branch airflow https://github.com/BigDataIA-Spring2023-Team-11/Assignment4.git
+git clone https://github.com/BigDataIA-Spring2023-Team-11/Assignment4.git
 ````
 2. Move to the project directory and run the following command in terminal to create a .env file
 ````
@@ -67,6 +68,20 @@ Password: team11
 ```
 9. Review DAGS: Adhoc_DAG and Batch_DAG
 10. Go to individual dags to trigger run, view logs, graphs etc.
+### Streamlit
+1. Open terminal
+2. Change to the location where you want to copy the repository
+3. Create .env file
+```commandline
+AWS_ACCESS_KEY =
+AWS_SECRET_KEY =
+LOGS_ACCESS_KEY =
+LOGS_SECRET_KEY =
+```
+4. Run the app using the command
+```commandline
+streamlit run main.py
+```
 
 ## Attestation
 WE ATTEST THAT WE HAVEN’T USED ANY OTHER STUDENTS’ WORK IN OUR ASSIGNMENT
